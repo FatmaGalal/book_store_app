@@ -1,6 +1,5 @@
-import 'package:book_store/constants.dart';
-import 'package:book_store/views/home_page/home_page.dart';
-
+import 'package:book_store/src/core/constants/constants.dart';
+import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
