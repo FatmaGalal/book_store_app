@@ -77,7 +77,7 @@ class _LoginBodyState extends State<LoginBody> {
                         Navigator.pushNamed(context, SignUpPage.id);
                       },
                       child: Text(
-                        ' Sign-Up ',
+                        ' Sign Up ',
                         style: TextStyle(
                           fontSize: 18,
                           color: kPrimaryColor,

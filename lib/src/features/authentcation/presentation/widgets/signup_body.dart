@@ -62,7 +62,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 SizedBox(height: 24),
 
                 CustomButton(
-                  buttonText: 'Create Account',
+                  buttonText: 'Sign Up',
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       // TODO: Trigger loading indicator, then submit data to API
