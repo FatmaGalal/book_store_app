@@ -1,0 +1,88 @@
+import 'package:book_store/src/core/components/custom_button.dart';
+import 'package:book_store/src/core/components/custom_form_textfield.dart';
+import 'package:book_store/src/core/constants/constants.dart';
+import 'package:book_store/src/core/utils/assets_data.dart';
+import 'package:flutter/cupertino.dart';
+
+class LoginBody extends StatefulWidget {
+  const LoginBody({super.key});
+
+  @override
+  State<LoginBody> createState() => _LoginBodyState();
+}
+
+class _LoginBodyState extends State<LoginBody> {
+  String? email, password;
+  GlobalKey<FormState> formKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+            SizedBox(height: 170, child: Image.asset(AssetsData.logo)),
+
+            SizedBox(height: 24),
+
+            CustomFormTextfield(
+              textFieldHint: 'User Name',
+              onChanged: (data) {
+                email = data;
+              },
+            ),
+
+            SizedBox(height: 12),
+
+            CustomFormTextfield(
+              textFieldHint: 'Password',
+              onChanged: (data) {
+                password = data;
+              },
+              obscarText: true,
+            ),
+
+            SizedBox(height: 24),
+
+            CustomButton(
+              buttonText: 'Login',
+              onTab: () {
+                if (formKey.currentState!.validate()) {
+                  setState(() {});
+                }
+              },
+            ),
+
+            SizedBox(height: 16),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'You don\'t have an account! ',
+                  style: TextStyle(fontSize: 16, color: kPrimaryColor),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    ' Sign-Up ',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

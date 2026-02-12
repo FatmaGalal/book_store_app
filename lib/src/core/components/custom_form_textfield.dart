@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 
 class CustomFormTextfield extends StatelessWidget {
- const CustomFormTextfield({
+  CustomFormTextfield({
     super.key,
     required this.textFieldHint,
     this.obscarText = false,
     this.onChanged,
   });
   final String textFieldHint;
-  final Function(String)? onChanged;
+  Function(String)? onChanged;
 
-  final bool obscarText;
+  bool obscarText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -25,13 +25,17 @@ class CustomFormTextfield extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: textFieldHint,
+      
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: kPrimaryColor),
         ),
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: kPrimaryColor),
         ),
         focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: kPrimaryColor),
         ),
       ),
