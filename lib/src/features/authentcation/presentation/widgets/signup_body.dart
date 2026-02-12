@@ -4,6 +4,7 @@ import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/features/authentcation/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpBody extends StatefulWidget {
   const SignUpBody({super.key});
@@ -15,7 +16,7 @@ class SignUpBody extends StatefulWidget {
 class _SignUpBodyState extends State<SignUpBody> {
   String? email, password, confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey();
-
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,6 +43,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 SizedBox(height: 12),
 
                 CustomFormTextfield(
+                
                   textFieldHint: 'Password',
                   onChanged: (data) {
                     password = data;
@@ -52,9 +54,10 @@ class _SignUpBodyState extends State<SignUpBody> {
                 SizedBox(height: 12),
 
                 CustomFormTextfield(
+                  
                   textFieldHint: 'Confirm Password',
                   onChanged: (data) {
-                    password = data;
+                    confirmPassword = data;
                   },
                   obscureText: true,
                 ),
@@ -63,9 +66,14 @@ class _SignUpBodyState extends State<SignUpBody> {
 
                 CustomButton(
                   buttonText: 'Sign Up',
-                  onTap: () {
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {
-                      // TODO: Trigger loading indicator, then submit data to API
+                      var firebaseAuth = FirebaseAuth.instance;
+                      var userCredential = await firebaseAuth
+                          .createUserWithEmailAndPassword(
+                            email: email!,
+                            password: password!,
+                          );
                     }
                   },
                 ),
