@@ -54,7 +54,7 @@ class _LoginBodyState extends State<LoginBody> {
               buttonText: 'Login',
               onTab: () {
                 if (formKey.currentState!.validate()) {
-                  setState(() {});
+                 // TODO: Trigger loading indicator, then submit data to API
                 }
               },
             ),
