@@ -52,7 +52,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 SizedBox(height: 12),
 
                 CustomFormTextfield(
-                  textFieldHint: 'Password',
+                  textFieldHint: 'Confirm Password',
                   onChanged: (data) {
                     password = data;
                   },
