@@ -1,18 +1,17 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:flutter/material.dart';
-
-
 class CustomFormTextfield extends StatelessWidget {
-  CustomFormTextfield({
+  const CustomFormTextfield({
     super.key,
     required this.textFieldHint,
     this.obscarText = false,
     this.onChanged,
   });
-  final String textFieldHint;
-  Function(String)? onChanged;
 
-  bool obscarText;
+  final String textFieldHint;
+  final Function(String)? onChanged;
+  final bool obscarText;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(

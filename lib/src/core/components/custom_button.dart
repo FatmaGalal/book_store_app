@@ -3,9 +3,9 @@ import 'package:book_store/src/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget{
- CustomButton({super.key,  this.onTab, required  this.buttonText});
+ const CustomButton({super.key,  this.onTab, required  this.buttonText});
  final dynamic buttonText;
-  VoidCallback? onTab;
+ final VoidCallback? onTab;
  
   @override
   Widget build(BuildContext context) {
