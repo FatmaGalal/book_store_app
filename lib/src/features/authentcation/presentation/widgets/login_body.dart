@@ -49,14 +49,14 @@ class _LoginBodyState extends State<LoginBody> {
                   onChanged: (data) {
                     password = data;
                   },
-                  obscarText: true,
+                  obscureText: true,
                 ),
           
                 SizedBox(height: 24),
           
                 CustomButton(
                   buttonText: 'Login',
-                  onTab: () {
+                  onTap: () {
                     if (formKey.currentState!.validate()) {
                      // TODO: Trigger loading indicator, then submit data to API
                     }
