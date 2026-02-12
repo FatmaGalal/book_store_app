@@ -23,7 +23,7 @@ class BookStoreApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         HomePage.id: (context) => HomePage(),
-        SignupPage.id: (context) => SignupPage(),
+        SignUpPage.id: (context) => SignUpPage(),
         LoginPage.id: (context) => LoginPage(),
       },
       debugShowCheckedModeBanner: false,
