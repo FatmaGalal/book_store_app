@@ -2,6 +2,7 @@ import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/core/components/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
+import 'package:book_store/src/features/authentcation/presentation/pages/signup_page.dart';
 import 'package:flutter/cupertino.dart';
 
 class LoginBody extends StatefulWidget {
@@ -68,7 +69,9 @@ class _LoginBodyState extends State<LoginBody> {
                   style: TextStyle(fontSize: 16, color: kPrimaryColor),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, SignupPage.id);
+                  },
                   child: Text(
                     ' Sign-Up ',
                     style: TextStyle(
