@@ -5,6 +5,7 @@ import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
+import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -19,7 +20,7 @@ class SignUpBody extends StatefulWidget {
 class _SignUpBodyState extends State<SignUpBody> {
   bool isLoading = false;
 
-  final GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,7 +36,7 @@ class _SignUpBodyState extends State<SignUpBody> {
         child: Center(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
 
@@ -81,7 +82,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                     obscureText: true,
                     validator: (value) => Validators.confirmPassword(
                       value,
-                      _passwordController.text,
+                      _passwordController.text.trim(),
                     ),
                   ),
 
@@ -90,13 +91,13 @@ class _SignUpBodyState extends State<SignUpBody> {
                   CustomButton(
                     buttonText: 'Sign Up',
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         setState(() => isLoading = true);
 
                         try {
                           await registerNewUser();
                           showMessage(context, 'success!');
-                          Navigator.pushReplacementNamed(context, LoginPage.id);
+                          Navigator.pushReplacementNamed(context, HomePage.id);
                         } on FirebaseAuthException catch (ex) {
                           if (ex.code == 'weak-password') {
                             showMessage(
@@ -155,7 +156,7 @@ class _SignUpBodyState extends State<SignUpBody> {
     var firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth.createUserWithEmailAndPassword(
       email: _emailController.text.trim(),
-      password: _passwordController.text,
+      password: _passwordController.text.trim(),
     );
   }
 

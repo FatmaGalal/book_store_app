@@ -18,19 +18,19 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBodyState extends State<LoginBody> {
   String? email, password;
-  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
-      color: kPrimaryColor,
+      progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
 
@@ -59,10 +59,9 @@ class _LoginBodyState extends State<LoginBody> {
                   CustomButton(
                     buttonText: 'Login',
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         try {
-                          isLoading = true;
-                          setState(() {});
+                          setState(() => isLoading = true);
 
                           await signIn();
                           showMessage(context, 'success!');
@@ -81,8 +80,7 @@ class _LoginBodyState extends State<LoginBody> {
                           showMessage(context, 'Error!');
                         }
 
-                        isLoading = false;
-                        setState(() {});
+                        setState(() => isLoading = false);
                       }
                     },
                   ),
@@ -98,7 +96,10 @@ class _LoginBodyState extends State<LoginBody> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacementNamed(context, SignUpPage.id);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            SignUpPage.id,
+                          );
                         },
                         child: Text(
                           ' Sign Up ',
@@ -123,8 +124,8 @@ class _LoginBodyState extends State<LoginBody> {
   Future<void> signIn() async {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.signInWithEmailAndPassword(
-      email: email!,
-      password: password!,
+      email: email!.trim(),
+      password: password!.trim(),
     );
   }
 }
