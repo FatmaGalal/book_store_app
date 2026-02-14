@@ -1,5 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
-import 'package:book_store/src/core/components/custom_form_textfield.dart';
+import 'package:book_store/src/features/authentcation/domain/validators.dart';
+import 'package:book_store/src/features/authentcation/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/core/utils/helpers/show_snak_bar_message.dart';
@@ -17,8 +18,19 @@ class SignUpBody extends StatefulWidget {
 
 class _SignUpBodyState extends State<SignUpBody> {
   String? email, password, confirmPassword;
-  GlobalKey<FormState> formKey = GlobalKey();
   bool isLoading = false;
+  
+  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormFieldState<String>> confirmPasswordKey =
+      GlobalKey<FormFieldState<String>>();
+
+  
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,30 +51,42 @@ class _SignUpBodyState extends State<SignUpBody> {
                   SizedBox(height: 24),
 
                   CustomFormTextfield(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                   
                     textFieldHint: 'User Name',
                     onChanged: (data) {
                       email = data;
                     },
+                    validator: Validators.email,
                   ),
 
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
+                    controller: _passwordController,
                     textFieldHint: 'Password',
                     onChanged: (data) {
                       password = data;
+                      confirmPasswordKey.currentState?.validate();
+                      
                     },
                     obscureText: true,
+                    validator: Validators.password,
                   ),
 
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
+                    formFieldKey: confirmPasswordKey,
+                    controller: _confirmPasswordController,
                     textFieldHint: 'Confirm Password',
                     onChanged: (data) {
                       confirmPassword = data;
                     },
+                    
                     obscureText: true,
+                    validator:(value) => Validators.confirmPassword(value, _passwordController.text),
                   ),
 
                   SizedBox(height: 24),
@@ -71,28 +95,31 @@ class _SignUpBodyState extends State<SignUpBody> {
                     buttonText: 'Sign Up',
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
-                      
                         setState(() {});
 
                         try {
                           await registerNewUser();
                           showMessage(context, 'success!');
                           Navigator.pushNamed(context, LoginPage.id);
-
                         } on FirebaseAuthException catch (ex) {
                           if (ex.code == 'weak-password') {
-                            showMessage(context, 'The password provided is too weak.!');
-                          } else if (ex.code ==  'email-already-in-use') {
-                            showMessage(context, 'The account already exists for that email.');
+                            showMessage(
+                              context,
+                              'The password provided is too weak.!',
+                            );
+                          } else if (ex.code == 'email-already-in-use') {
+                            showMessage(
+                              context,
+                              'The account already exists for that email.',
+                            );
                           }
                         } catch (ex) {
                           showMessage(context, 'Error!');
                         }
-                   
+
                         isLoading = false;
                         setState(() {});
-                      
-                      } 
+                      }
                     },
                   ),
 
@@ -135,5 +162,13 @@ class _SignUpBodyState extends State<SignUpBody> {
       email: email!,
       password: password!,
     );
+  }
+
+ @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
