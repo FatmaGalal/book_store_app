@@ -29,7 +29,7 @@ class BookStoreApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Book Store',
       theme: ThemeData(
-        fontFamily: 'Montserra',
+        fontFamily: 'Montserrat',
       ).copyWith(scaffoldBackgroundColor: kLightBGColor),
 
       home: const LoginPage(),
