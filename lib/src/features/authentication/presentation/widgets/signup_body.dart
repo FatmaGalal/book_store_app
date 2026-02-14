@@ -1,10 +1,10 @@
 import 'package:book_store/src/core/components/custom_button.dart';
-import 'package:book_store/src/features/authentcation/domain/validators.dart';
-import 'package:book_store/src/features/authentcation/presentation/widgets/custom_form_textfield.dart';
+import 'package:book_store/src/features/authentication/domain/validators.dart';
+import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
-import 'package:book_store/src/core/utils/helpers/show_snak_bar_message.dart';
-import 'package:book_store/src/features/authentcation/presentation/pages/login_page.dart';
+import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
+import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -36,6 +36,8 @@ class _SignUpBodyState extends State<SignUpBody> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
+      color: Colors.black,
+      progressIndicator: CircularProgressIndicator(color: Colors.red, ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -69,7 +71,6 @@ class _SignUpBodyState extends State<SignUpBody> {
                     onChanged: (data) {
                       password = data;
                       confirmPasswordKey.currentState?.validate();
-                      
                     },
                     obscureText: true,
                     validator: Validators.password,

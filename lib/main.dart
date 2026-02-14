@@ -1,7 +1,7 @@
 import 'package:book_store/src/core/constants/constants.dart';
-import 'package:book_store/src/features/authentcation/presentation/pages/signup_page.dart';
+import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
-import 'package:book_store/src/features/authentcation/presentation/pages/login_page.dart';
+import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

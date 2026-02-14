@@ -1,5 +1,5 @@
 import 'package:book_store/src/core/constants/route_constants.dart';
-import 'package:book_store/src/features/authentcation/presentation/widgets/signup_body.dart';
+import 'package:book_store/src/features/authentication/presentation/widgets/signup_body.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SignUpBody(),
+      body: SafeArea(child: SignUpBody()),
     );
   }
 }
