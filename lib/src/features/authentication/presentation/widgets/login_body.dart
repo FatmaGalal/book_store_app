@@ -1,5 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
+import 'package:book_store/src/features/authentication/domain/validators.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -8,6 +9,7 @@ import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
@@ -17,9 +19,14 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
-  String? email, password;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool isLoading = false;
+
+  final AuthenticationProvider _authenticationProvider =
+      AuthenticationProvider();
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -38,18 +45,20 @@ class _LoginBodyState extends State<LoginBody> {
                   SizedBox(height: 170, child: Image.asset(AssetsData.logo)),
                   SizedBox(height: 24),
                   CustomFormTextfield(
+                    validator: Validators.requiredField,
                     textFieldHint: 'User Name',
                     onChanged: (data) {
-                      email = data;
+                      _emailController.text = data;
                     },
                   ),
 
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
+                    validator: Validators.requiredField,
                     textFieldHint: 'Password',
                     onChanged: (data) {
-                      password = data;
+                      _passwordController.text = data;
                     },
                     obscureText: true,
                   ),
@@ -60,12 +69,14 @@ class _LoginBodyState extends State<LoginBody> {
                     buttonText: 'Login',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
+                        setState(() => isLoading = true);
                         try {
-                          setState(() => isLoading = true);
-
-                          await signIn();
+                          await _authenticationProvider.signIn(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
                           showMessage(context, 'success!');
-                          Navigator.pushNamed(context, HomePage.id);
+                          Navigator.pushReplacementNamed(context, HomePage.id);
                         } on FirebaseAuthException catch (firebaseEx) {
                           if (firebaseEx.code == 'user-not-found') {
                             showMessage(context, 'User not found!');
@@ -78,9 +89,11 @@ class _LoginBodyState extends State<LoginBody> {
                           }
                         } catch (ex) {
                           showMessage(context, 'Error!');
+                        } finally {
+                          if (mounted) {
+                            setState(() => isLoading = false);
+                          }
                         }
-
-                        setState(() => isLoading = false);
                       }
                     },
                   ),
@@ -121,11 +134,10 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  Future<void> signIn() async {
-    var auth = FirebaseAuth.instance;
-    UserCredential user = await auth.signInWithEmailAndPassword(
-      email: email!.trim(),
-      password: password!.trim(),
-    );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

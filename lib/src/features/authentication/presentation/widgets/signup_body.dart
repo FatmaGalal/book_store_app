@@ -1,5 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/domain/validators.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -26,6 +27,8 @@ class _SignUpBodyState extends State<SignUpBody> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  final AuthenticationProvider _authenticationProvider =
+      AuthenticationProvider();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -95,7 +98,10 @@ class _SignUpBodyState extends State<SignUpBody> {
                         setState(() => isLoading = true);
 
                         try {
-                          await registerNewUser();
+                          await _authenticationProvider.registerNewUser(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
                           showMessage(context, 'success!');
                           Navigator.pushReplacementNamed(context, HomePage.id);
                         } on FirebaseAuthException catch (ex) {
@@ -112,9 +118,11 @@ class _SignUpBodyState extends State<SignUpBody> {
                           }
                         } catch (ex) {
                           showMessage(context, 'Error!');
+                        } finally {
+                          if (mounted) {
+                            setState(() => isLoading = false);
+                          }
                         }
-
-                        setState(() => isLoading = false);
                       }
                     },
                   ),
@@ -149,14 +157,6 @@ class _SignUpBodyState extends State<SignUpBody> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> registerNewUser() async {
-    var firebaseAuth = FirebaseAuth.instance;
-    await firebaseAuth.createUserWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
     );
   }
 
