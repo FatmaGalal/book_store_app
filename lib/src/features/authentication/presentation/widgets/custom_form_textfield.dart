@@ -25,6 +25,12 @@ class CustomFormTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: kPrimaryColor),
+    );
+
     return TextFormField(
       key: formFieldKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -36,18 +42,9 @@ class CustomFormTextfield extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: textFieldHint,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: kPrimaryColor),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: kPrimaryColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: kPrimaryColor),
-        ),
+        enabledBorder: outlineInputBorder,
+        border: outlineInputBorder,
+        focusedBorder: outlineInputBorder,
       ),
       cursorColor: kPrimaryColor,
     );
