@@ -36,9 +36,7 @@ class _LoginBodyState extends State<LoginBody> {
 
                 children: [
                   SizedBox(height: 170, child: Image.asset(AssetsData.logo)),
-
                   SizedBox(height: 24),
-
                   CustomFormTextfield(
                     textFieldHint: 'User Name',
                     onChanged: (data) {
@@ -100,7 +98,7 @@ class _LoginBodyState extends State<LoginBody> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, SignUpPage.id);
+                          Navigator.pushReplacementNamed(context, SignUpPage.id);
                         },
                         child: Text(
                           ' Sign Up ',

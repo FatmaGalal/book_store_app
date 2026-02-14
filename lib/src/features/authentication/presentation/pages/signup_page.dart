@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
-
   static String id = RouteConstants.signUpPage;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(child: SignUpBody()),
-    );
+    return Scaffold(body: SafeArea(child: SignUpBody()));
   }
 }
