@@ -1,10 +1,16 @@
 import 'package:book_store/src/core/constants/constants.dart';
-import 'package:book_store/src/features/authentcation/presentation/pages/signup_page.dart';
+import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
-import 'package:book_store/src/features/authentcation/presentation/pages/login_page.dart';
+import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const BookStoreApp());
 }
 
@@ -16,14 +22,16 @@ class BookStoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        HomePage.id: (context)=> HomePage(),
-        SignupPage.id: (context)=>SignupPage(),
-        LoginPage.id:(context)=>LoginPage(),
+        HomePage.id: (context) => HomePage(),
+        SignUpPage.id: (context) => SignUpPage(),
+        LoginPage.id: (context) => LoginPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Book Store',
-      theme: ThemeData( fontFamily: 'Montserra').copyWith(scaffoldBackgroundColor: kLightBGColor),
-     
+      theme: ThemeData(
+        fontFamily: 'Montserrat',
+      ).copyWith(scaffoldBackgroundColor: kLightBGColor),
+
       home: const LoginPage(),
     );
   }
