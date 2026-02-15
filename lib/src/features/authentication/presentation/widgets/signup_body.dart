@@ -1,10 +1,12 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/domain/validators.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
+import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -17,33 +19,27 @@ class SignUpBody extends StatefulWidget {
 }
 
 class _SignUpBodyState extends State<SignUpBody> {
-  String? email, password, confirmPassword;
   bool isLoading = false;
-  
-  GlobalKey<FormState> formKey = GlobalKey();
-  final GlobalKey<FormFieldState<String>> confirmPasswordKey =
-      GlobalKey<FormFieldState<String>>();
 
-  
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-
-
+  final AuthenticationProvider _authenticationProvider =
+      AuthenticationProvider();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
-      color: Colors.black,
-      progressIndicator: CircularProgressIndicator(color: Colors.red, ),
+      progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
 
@@ -55,10 +51,10 @@ class _SignUpBodyState extends State<SignUpBody> {
                   CustomFormTextfield(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                   
+                    textInputAction: TextInputAction.next,
                     textFieldHint: 'User Name',
                     onChanged: (data) {
-                      email = data;
+                      _emailController.text = data;
                     },
                     validator: Validators.email,
                   ),
@@ -68,9 +64,9 @@ class _SignUpBodyState extends State<SignUpBody> {
                   CustomFormTextfield(
                     controller: _passwordController,
                     textFieldHint: 'Password',
+                    textInputAction: TextInputAction.next,
                     onChanged: (data) {
-                      password = data;
-                      confirmPasswordKey.currentState?.validate();
+                      _passwordController.text = data;
                     },
                     obscureText: true,
                     validator: Validators.password,
@@ -79,15 +75,18 @@ class _SignUpBodyState extends State<SignUpBody> {
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
-                    formFieldKey: confirmPasswordKey,
                     controller: _confirmPasswordController,
                     textFieldHint: 'Confirm Password',
+                    textInputAction: TextInputAction.done,
                     onChanged: (data) {
-                      confirmPassword = data;
+                      _confirmPasswordController.text = data;
                     },
-                    
+
                     obscureText: true,
-                    validator:(value) => Validators.confirmPassword(value, _passwordController.text),
+                    validator: (value) => Validators.confirmPassword(
+                      value,
+                      _passwordController.text.trim(),
+                    ),
                   ),
 
                   SizedBox(height: 24),
@@ -95,13 +94,16 @@ class _SignUpBodyState extends State<SignUpBody> {
                   CustomButton(
                     buttonText: 'Sign Up',
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        setState(() {});
+                      if (_formKey.currentState!.validate()) {
+                        setState(() => isLoading = true);
 
                         try {
-                          await registerNewUser();
+                          await _authenticationProvider.registerNewUser(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
                           showMessage(context, 'success!');
-                          Navigator.pushNamed(context, LoginPage.id);
+                          Navigator.pushReplacementNamed(context, HomePage.id);
                         } on FirebaseAuthException catch (ex) {
                           if (ex.code == 'weak-password') {
                             showMessage(
@@ -116,10 +118,11 @@ class _SignUpBodyState extends State<SignUpBody> {
                           }
                         } catch (ex) {
                           showMessage(context, 'Error!');
+                        } finally {
+                          if (mounted) {
+                            setState(() => isLoading = false);
+                          }
                         }
-
-                        isLoading = false;
-                        setState(() {});
                       }
                     },
                   ),
@@ -135,7 +138,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, LoginPage.id);
+                          Navigator.pushReplacementNamed(context, LoginPage.id);
                         },
                         child: Text(
                           ' Login',
@@ -157,15 +160,7 @@ class _SignUpBodyState extends State<SignUpBody> {
     );
   }
 
-  Future<void> registerNewUser() async {
-    var firebaseAuth = FirebaseAuth.instance;
-    await firebaseAuth.createUserWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
-  }
-
- @override
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
