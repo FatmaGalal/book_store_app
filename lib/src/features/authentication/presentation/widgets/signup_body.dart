@@ -1,5 +1,5 @@
 import 'package:book_store/src/core/components/custom_button.dart';
-import 'package:book_store/src/features/authentication/domain/validators.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
