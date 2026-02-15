@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/auth_service.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -9,16 +9,17 @@ import 'package:book_store/src/features/authentication/presentation/pages/login_
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class SignUpBody extends StatefulWidget {
+class SignUpBody extends ConsumerStatefulWidget {
   const SignUpBody({super.key});
 
   @override
-  State<SignUpBody> createState() => _SignUpBodyState();
+  ConsumerState<SignUpBody> createState() => _SignUpBodyState();
 }
 
-class _SignUpBodyState extends State<SignUpBody> {
+class _SignUpBodyState extends ConsumerState<SignUpBody> {
   bool isLoading = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -27,8 +28,8 @@ class _SignUpBodyState extends State<SignUpBody> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  final AuthenticationProvider _authenticationProvider =
-      AuthenticationProvider();
+  final AuthService _authenticationProvider =
+      AuthService();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(

@@ -8,24 +8,25 @@ import 'package:book_store/src/features/authentication/presentation/pages/signup
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/auth_service.dart';
 
-class LoginBody extends StatefulWidget {
+class LoginBody extends ConsumerStatefulWidget {
   const LoginBody({super.key});
 
   @override
-  State<LoginBody> createState() => _LoginBodyState();
+  ConsumerState<LoginBody> createState() => _LoginBodyState();
 }
 
-class _LoginBodyState extends State<LoginBody> {
+class _LoginBodyState extends ConsumerState<LoginBody> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool isLoading = false;
 
-  final AuthenticationProvider _authenticationProvider =
-      AuthenticationProvider();
+  final AuthService _authenticationProvider =
+      AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class _LoginBodyState extends State<LoginBody> {
                           );
                           showMessage(context, 'success!');
                           Navigator.pushReplacementNamed(context, HomePage.id);
-                        } on FirebaseAuthException catch (firebaseEx) {
+                        } on FirebaseAuthException catch ( firebaseEx) {
                           if (firebaseEx.code == 'user-not-found') {
                             showMessage(context, 'User not found!');
                           } else if (firebaseEx.code == 'invalid-credential') {
