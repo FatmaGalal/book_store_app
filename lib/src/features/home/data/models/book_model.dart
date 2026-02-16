@@ -1,9 +1,10 @@
 import 'package:book_store/src/features/home/data/models/acess_info.dart';
+import 'package:book_store/src/features/home/data/models/book_entity.dart';
 import 'package:book_store/src/features/home/data/models/sale_info.dart';
 import 'package:book_store/src/features/home/data/models/search_info.dart';
 import 'package:book_store/src/features/home/data/models/volume_model.dart';
 
-class BookModel {
+class BookModel extends BookEntity {
   final String? kind;
   final String? id;
   final String? etag;
@@ -22,7 +23,14 @@ class BookModel {
     this.saleInfo,
     this.accessInfo,
     this.searchInfo,
-  });
+  }):super(
+          bookId: id,
+          kind: kind,
+          title: volumeInfo!.title!,
+          authors: volumeInfo.authors!.first,
+          categories: volumeInfo.categories!.first,
+          imageLink: volumeInfo.imageLinks!.smallThumbnail??'',
+        );
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
     return BookModel(

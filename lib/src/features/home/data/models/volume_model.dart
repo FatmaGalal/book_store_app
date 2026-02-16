@@ -4,7 +4,7 @@ class VolumeInfo {
   final String? title;
   final List<String>? authors;
   final String? publishedDate;
-  final int? pageCount;
+  final num? pageCount;
   final List<String>? categories;
   final ImageLinks? imageLinks;
   final String? language;
@@ -26,7 +26,7 @@ class VolumeInfo {
       title: json['title'],
       authors: (json['authors'] as List?)?.cast<String>(),
       publishedDate: json['publishedDate'],
-      pageCount: json['pageCount'],
+      pageCount: json['pageCount'] as num,
       categories: (json['categories'] as List?)?.cast<String>(),
       imageLinks: json['imageLinks'] != null
           ? ImageLinks.fromJson(json['imageLinks'])
