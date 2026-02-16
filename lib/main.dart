@@ -1,11 +1,13 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
+import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive/hive.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -14,6 +16,11 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp( ProviderScope(child: BookStoreApp()));
+
+  
+  Hive.registerAdapter(BookEntityAdapter());
+  await Hive.openBox<BookEntity>(kBookBox);
+
 }
 
 class BookStoreApp extends StatelessWidget {
