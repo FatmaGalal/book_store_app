@@ -33,8 +33,8 @@ class LoginController extends StateNotifier<AsyncValue<void>> {
           );
 
       state = const AsyncData(null);
-    } catch (e, st) {
-      state = AsyncError(e, st);
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
     }
   }
 }

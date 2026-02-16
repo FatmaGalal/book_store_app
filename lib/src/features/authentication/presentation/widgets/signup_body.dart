@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
-import 'package:book_store/src/features/authentication/data/auth_service.dart';
+import 'package:book_store/src/features/authentication/domain/firebase_auth_errors.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/signup_provider.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -20,20 +20,27 @@ class SignUpBody extends ConsumerStatefulWidget {
 }
 
 class _SignUpBodyState extends ConsumerState<SignUpBody> {
-  bool isLoading = false;
-
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-
-  final AuthService _authenticationProvider =
-      AuthService();
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(signUpProvider);
+
+    ref.listen(signUpProvider, (previous, next) {
+      next.whenOrNull(
+        data: (data) {
+          Navigator.pushReplacementNamed(context, HomePage.id);
+        },
+        error: (ex, st) {
+          if (ex is FirebaseAuthException) {
+            showMessage(context, firebaseAuthError(ex));
+          }
+        },
+      );
+    });
+
     return ModalProgressHUD(
-      inAsyncCall: isLoading,
+      inAsyncCall: provider.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -50,44 +57,43 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   SizedBox(height: 24),
 
                   CustomFormTextfield(
-                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    textFieldHint: 'User Name',
+                    textFieldHint: 'Email',
                     onChanged: (data) {
-                      _emailController.text = data;
+                      ref.read(signUpProvider.notifier).updateEmail(data);
                     },
-                    validator: Validators.email,
+                    validator: (email) =>
+                        ref.read(signUpProvider.notifier).emailError,
                   ),
 
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
-                    controller: _passwordController,
                     textFieldHint: 'Password',
                     textInputAction: TextInputAction.next,
                     onChanged: (data) {
-                      _passwordController.text = data;
+                      ref.read(signUpProvider.notifier).updatePassword(data);
                     },
                     obscureText: true,
-                    validator: Validators.password,
+                    validator: (password) =>
+                        ref.read(signUpProvider.notifier).passwordError,
                   ),
 
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
-                    controller: _confirmPasswordController,
                     textFieldHint: 'Confirm Password',
                     textInputAction: TextInputAction.done,
                     onChanged: (data) {
-                      _confirmPasswordController.text = data;
+                      ref
+                          .read(signUpProvider.notifier)
+                          .updateConfirmPassword(data);
                     },
 
                     obscureText: true,
-                    validator: (value) => Validators.confirmPassword(
-                      value,
-                      _passwordController.text.trim(),
-                    ),
+                    validator: (confirmPassword) =>
+                        ref.read(signUpProvider.notifier).confirmPasswordError,
                   ),
 
                   SizedBox(height: 24),
@@ -95,36 +101,7 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   CustomButton(
                     buttonText: 'Sign Up',
                     onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() => isLoading = true);
-
-                        try {
-                          await _authenticationProvider.registerNewUser(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-                          showMessage(context, 'success!');
-                          Navigator.pushReplacementNamed(context, HomePage.id);
-                        } on FirebaseAuthException catch (ex) {
-                          if (ex.code == 'weak-password') {
-                            showMessage(
-                              context,
-                              'The password provided is too weak.!',
-                            );
-                          } else if (ex.code == 'email-already-in-use') {
-                            showMessage(
-                              context,
-                              'The account already exists for that email.',
-                            );
-                          }
-                        } catch (ex) {
-                          showMessage(context, 'Error!');
-                        } finally {
-                          if (mounted) {
-                            setState(() => isLoading = false);
-                          }
-                        }
-                      }
+                      ref.read(signUpProvider.notifier).registerNewUser();
                     },
                   ),
 
@@ -159,13 +136,5 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
   }
 }
