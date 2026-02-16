@@ -6,7 +6,7 @@ import 'package:book_store/src/features/home/data/models/volume_model.dart';
 
 class BookModel extends BookEntity {
   final String? kind;
-  final String? id;
+  final String id;
   final String? etag;
   final String? selfLink;
   final VolumeInfo? volumeInfo;
@@ -15,22 +15,22 @@ class BookModel extends BookEntity {
   final SearchInfo? searchInfo;
 
   BookModel({
+    required this.id,
     this.kind,
-    this.id,
     this.etag,
     this.selfLink,
     this.volumeInfo,
     this.saleInfo,
     this.accessInfo,
     this.searchInfo,
-  }):super(
-          bookId: id,
-          kind: kind,
-          title: volumeInfo!.title!,
-          authors: volumeInfo.authors!.first,
-          categories: volumeInfo.categories!.first,
-          imageLink: volumeInfo.imageLinks!.smallThumbnail??'',
-        );
+  }) : super(
+         bookId: id,
+         kind: kind,
+         title: volumeInfo!.title!,
+         authors: volumeInfo.authors!.first,
+         categories: volumeInfo.categories!.first,
+         imageLink: volumeInfo.imageLinks!.smallThumbnail ?? '',
+       );
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
     return BookModel(
@@ -54,13 +54,13 @@ class BookModel extends BookEntity {
   }
 
   Map<String, dynamic> toJson() => {
-        'kind': kind,
-        'id': id,
-        'etag': etag,
-        'selfLink': selfLink,
-        'volumeInfo': volumeInfo?.toJson(),
-        'saleInfo': saleInfo?.toJson(),
-        'accessInfo': accessInfo?.toJson(),
-        'searchInfo': searchInfo?.toJson(),
-      };
+    'kind': kind,
+    'id': id,
+    'etag': etag,
+    'selfLink': selfLink,
+    'volumeInfo': volumeInfo?.toJson(),
+    'saleInfo': saleInfo?.toJson(),
+    'accessInfo': accessInfo?.toJson(),
+    'searchInfo': searchInfo?.toJson(),
+  };
 }
