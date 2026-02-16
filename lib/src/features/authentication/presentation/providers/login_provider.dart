@@ -3,12 +3,6 @@ import 'package:book_store/src/features/authentication/presentation/providers/au
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-// final loginProvider = Provider<AuthService>((ref) => AuthService());
-
-// final loginResponseProvider = FutureProvider<UserCredential>((ref) async {
-//   return ref.watch(loginProvider).signIn(email: "email", password: "password");
-// });
-
 final loginProvider =
     StateNotifierProvider<LoginController, AsyncValue<void>>((ref) {
   return LoginController(ref);

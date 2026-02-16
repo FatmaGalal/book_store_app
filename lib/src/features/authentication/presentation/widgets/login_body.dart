@@ -21,12 +21,8 @@ class LoginBody extends ConsumerStatefulWidget {
 }
 
 class _LoginBodyState extends ConsumerState<LoginBody> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+ 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  //bool isLoading = false;
-
-  //final AuthService _authenticationProvider = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +30,15 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
 
     ref.listen(loginProvider, (previous, next) {
       next.whenOrNull(
-        data: (_) {
+        data: (data) {
           Navigator.pushReplacementNamed(context, HomePage.id);
         },
-        error: (ex, _) {
-          showMessage(context, firebaseAuthError(ex as FirebaseAuthException));
+        error: (ex, st) {
+          if (ex is FirebaseAuthException) {
+            showMessage(context, firebaseAuthError(ex));
+          } else {
+            showMessage(context, ex.toString());
+          }
         },
       );
     });
@@ -62,7 +62,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     validator: Validators.requiredField,
                     textFieldHint: 'User Name',
                     onChanged: (data) {
-                      // _emailController.text = data;
+                      ref.read(loginProvider.notifier).updateEmail(data);
                     },
                   ),
 
@@ -72,7 +72,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     validator: Validators.requiredField,
                     textFieldHint: 'Password',
                     onChanged: (data) {
-                      _passwordController.text = data;
+                      ref.read(loginProvider.notifier).updatePassword(data);
                     },
                     obscureText: true,
                   ),
@@ -83,32 +83,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     buttonText: 'Login',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        ref.read(loginProvider.notifier).login();
-                        // setState(() => isLoading = true);
-                        // try {
-                        //   await _authenticationProvider.signIn(
-                        //     email: _emailController.text.trim(),
-                        //     password: _passwordController.text.trim(),
-                        //   );
-                        //   showMessage(context, 'success!');
-                        //   Navigator.pushReplacementNamed(context, HomePage.id);
-                        // } on FirebaseAuthException catch (firebaseEx) {
-                        //   if (firebaseEx.code == 'user-not-found') {
-                        //     showMessage(context, 'User not found!');
-                        //   } else if (firebaseEx.code == 'invalid-credential') {
-                        //     showMessage(context, 'Invalid credential');
-                        //   } else if (firebaseEx.code == 'rejected-credential') {
-                        //     showMessage(context, 'rejected credential');
-                        //   } else {
-                        //     showMessage(context, 'Auth Error');
-                        //   }
-                        // } catch (ex) {
-                        //   showMessage(context, 'Error!');
-                        // } finally {
-                        //   if (mounted) {
-                        //   //  setState(() => isLoading = false);
-                        //   }
-                        // }
+                        ref.read(loginProvider.notifier).login();                   
                       }
                     },
                   ),
@@ -147,12 +122,5 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }
