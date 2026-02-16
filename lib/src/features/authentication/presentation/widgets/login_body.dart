@@ -1,6 +1,8 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
-import 'package:book_store/src/features/authentication/domain/validators.dart';
+import 'package:book_store/src/features/authentication/domain/firebase_auth_errors.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/login_provider.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -8,29 +10,41 @@ import 'package:book_store/src/features/authentication/presentation/pages/signup
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
 
-class LoginBody extends StatefulWidget {
+class LoginBody extends ConsumerStatefulWidget {
   const LoginBody({super.key});
 
   @override
-  State<LoginBody> createState() => _LoginBodyState();
+  ConsumerState<LoginBody> createState() => _LoginBodyState();
 }
 
-class _LoginBodyState extends State<LoginBody> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+class _LoginBodyState extends ConsumerState<LoginBody> {
+ 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  bool isLoading = false;
-
-  final AuthenticationProvider _authenticationProvider =
-      AuthenticationProvider();
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(loginProvider);
+
+    ref.listen(loginProvider, (previous, next) {
+      next.whenOrNull(
+        data: (data) {
+          Navigator.pushReplacementNamed(context, HomePage.id);
+        },
+        error: (ex, st) {
+          if (ex is FirebaseAuthException) {
+            showMessage(context, firebaseAuthError(ex));
+          } else {
+            showMessage(context, ex.toString());
+          }
+        },
+      );
+    });
+
     return ModalProgressHUD(
-      inAsyncCall: isLoading,
+      inAsyncCall: provider.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -48,7 +62,7 @@ class _LoginBodyState extends State<LoginBody> {
                     validator: Validators.requiredField,
                     textFieldHint: 'User Name',
                     onChanged: (data) {
-                      _emailController.text = data;
+                      ref.read(loginProvider.notifier).updateEmail(data);
                     },
                   ),
 
@@ -58,7 +72,7 @@ class _LoginBodyState extends State<LoginBody> {
                     validator: Validators.requiredField,
                     textFieldHint: 'Password',
                     onChanged: (data) {
-                      _passwordController.text = data;
+                      ref.read(loginProvider.notifier).updatePassword(data);
                     },
                     obscureText: true,
                   ),
@@ -69,31 +83,7 @@ class _LoginBodyState extends State<LoginBody> {
                     buttonText: 'Login',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        setState(() => isLoading = true);
-                        try {
-                          await _authenticationProvider.signIn(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-                          showMessage(context, 'success!');
-                          Navigator.pushReplacementNamed(context, HomePage.id);
-                        } on FirebaseAuthException catch (firebaseEx) {
-                          if (firebaseEx.code == 'user-not-found') {
-                            showMessage(context, 'User not found!');
-                          } else if (firebaseEx.code == 'invalid-credential') {
-                            showMessage(context, 'Invalid credential');
-                          } else if (firebaseEx.code == 'rejected-credential') {
-                            showMessage(context, 'rejected credential');
-                          } else {
-                            showMessage(context, 'Auth Error');
-                          }
-                        } catch (ex) {
-                          showMessage(context, 'Error!');
-                        } finally {
-                          if (mounted) {
-                            setState(() => isLoading = false);
-                          }
-                        }
+                        ref.read(loginProvider.notifier).login();                   
                       }
                     },
                   ),
@@ -132,12 +122,5 @@ class _LoginBodyState extends State<LoginBody> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

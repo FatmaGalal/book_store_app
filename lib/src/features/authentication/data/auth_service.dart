@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthenticationProvider {
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserCredential> signIn({
@@ -25,3 +25,5 @@ class AuthenticationProvider {
     return user;
   }
 }
+
+ 
