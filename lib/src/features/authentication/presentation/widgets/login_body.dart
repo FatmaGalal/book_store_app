@@ -1,5 +1,7 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
+import 'package:book_store/src/features/authentication/domain/firebase_auth_errors.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/login_provider.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
@@ -10,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/auth_service.dart';
 
 class LoginBody extends ConsumerStatefulWidget {
   const LoginBody({super.key});
@@ -23,15 +24,27 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  bool isLoading = false;
+  //bool isLoading = false;
 
-  final AuthService _authenticationProvider =
-      AuthService();
+  //final AuthService _authenticationProvider = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(loginProvider);
+
+    ref.listen(loginProvider, (previous, next) {
+      next.whenOrNull(
+        data: (_) {
+          Navigator.pushReplacementNamed(context, HomePage.id);
+        },
+        error: (ex, _) {
+          showMessage(context, firebaseAuthError(ex as FirebaseAuthException));
+        },
+      );
+    });
+
     return ModalProgressHUD(
-      inAsyncCall: isLoading,
+      inAsyncCall: provider.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -49,7 +62,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     validator: Validators.requiredField,
                     textFieldHint: 'User Name',
                     onChanged: (data) {
-                      _emailController.text = data;
+                      // _emailController.text = data;
                     },
                   ),
 
@@ -70,31 +83,32 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     buttonText: 'Login',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        setState(() => isLoading = true);
-                        try {
-                          await _authenticationProvider.signIn(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-                          showMessage(context, 'success!');
-                          Navigator.pushReplacementNamed(context, HomePage.id);
-                        } on FirebaseAuthException catch ( firebaseEx) {
-                          if (firebaseEx.code == 'user-not-found') {
-                            showMessage(context, 'User not found!');
-                          } else if (firebaseEx.code == 'invalid-credential') {
-                            showMessage(context, 'Invalid credential');
-                          } else if (firebaseEx.code == 'rejected-credential') {
-                            showMessage(context, 'rejected credential');
-                          } else {
-                            showMessage(context, 'Auth Error');
-                          }
-                        } catch (ex) {
-                          showMessage(context, 'Error!');
-                        } finally {
-                          if (mounted) {
-                            setState(() => isLoading = false);
-                          }
-                        }
+                        ref.read(loginProvider.notifier).login();
+                        // setState(() => isLoading = true);
+                        // try {
+                        //   await _authenticationProvider.signIn(
+                        //     email: _emailController.text.trim(),
+                        //     password: _passwordController.text.trim(),
+                        //   );
+                        //   showMessage(context, 'success!');
+                        //   Navigator.pushReplacementNamed(context, HomePage.id);
+                        // } on FirebaseAuthException catch (firebaseEx) {
+                        //   if (firebaseEx.code == 'user-not-found') {
+                        //     showMessage(context, 'User not found!');
+                        //   } else if (firebaseEx.code == 'invalid-credential') {
+                        //     showMessage(context, 'Invalid credential');
+                        //   } else if (firebaseEx.code == 'rejected-credential') {
+                        //     showMessage(context, 'rejected credential');
+                        //   } else {
+                        //     showMessage(context, 'Auth Error');
+                        //   }
+                        // } catch (ex) {
+                        //   showMessage(context, 'Error!');
+                        // } finally {
+                        //   if (mounted) {
+                        //   //  setState(() => isLoading = false);
+                        //   }
+                        // }
                       }
                     },
                   ),

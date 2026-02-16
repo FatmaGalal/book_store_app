@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/auth_service.dart';
+import 'package:book_store/src/features/authentication/data/auth_service.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
