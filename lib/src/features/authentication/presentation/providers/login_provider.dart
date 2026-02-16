@@ -33,9 +33,7 @@ class LoginController extends StateNotifier<AsyncValue<void>> {
     state = const AsyncLoading();
 
     try {
-      await ref
-          .read(authServiceProvider)
-          .signIn(
+      await ref.read(authServiceProvider).signIn(
             email: formState.email.trim(),
             password: formState.password.trim(),
           );
