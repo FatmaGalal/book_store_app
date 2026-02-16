@@ -9,7 +9,7 @@ import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/auth_repository.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
@@ -24,8 +24,8 @@ class _LoginBodyState extends State<LoginBody> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool isLoading = false;
 
-  final AuthenticationProvider _authenticationProvider =
-      AuthenticationProvider();
+  final AuthRepository _authenticationProvider =
+      AuthRepository();
 
   @override
   Widget build(BuildContext context) {

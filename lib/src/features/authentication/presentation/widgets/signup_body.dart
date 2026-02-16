@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/domain/validators.dart';
-import 'package:book_store/src/features/authentication/presentation/providers/authentication_provider.dart';
+import 'package:book_store/src/features/authentication/presentation/providers/auth_repository.dart';
 import 'package:book_store/src/features/authentication/presentation/widgets/custom_form_textfield.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
@@ -27,8 +27,8 @@ class _SignUpBodyState extends State<SignUpBody> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  final AuthenticationProvider _authenticationProvider =
-      AuthenticationProvider();
+  final AuthRepository _authenticationProvider =
+      AuthRepository();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
