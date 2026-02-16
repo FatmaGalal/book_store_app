@@ -3,12 +3,21 @@ import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:book_store/src/features/home/domain/repos/home_repo.dart';
 import 'package:dartz/dartz.dart';
 
-class FetchBookListUseCase {
+class FetchBookListUseCase  extends UseCase<List<BookEntity>, NoParam>{
   final HomeRepo homeRepo;
 
   FetchBookListUseCase({required this.homeRepo});
-
-  Future<Either<Failure, List<BookEntity>>> fetchBookList(){
-    return homeRepo.fetchBookList();
+  
+  @override
+  Future<Either<Failure, List<BookEntity>>> call([NoParam? param]) {
+    
+   return homeRepo.fetchBookList();
   }
+
+  
 }
+abstract class UseCase<Type, Param>{
+  Future<Either<Failure,Type>> call([Param param]);
+}
+
+class NoParam{}
