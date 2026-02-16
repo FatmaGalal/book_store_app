@@ -1,5 +1,5 @@
 import 'package:book_store/src/features/home/data/models/acess_info.dart';
-import 'package:book_store/src/features/home/data/models/book_entity.dart';
+import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:book_store/src/features/home/data/models/sale_info.dart';
 import 'package:book_store/src/features/home/data/models/search_info.dart';
 import 'package:book_store/src/features/home/data/models/volume_model.dart';
