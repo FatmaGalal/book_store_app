@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/constants/api_constants.dart';
 import 'package:book_store/src/core/constants/constants.dart';
-import 'package:book_store/src/core/utils/api_service.dart';
+import 'package:book_store/src/features/home/data/data_sources/api_service.dart';
 import 'package:book_store/src/features/home/data/models/book_model.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:dio/dio.dart';
@@ -16,16 +16,25 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiService});
   @override
   Future<List<BookEntity>> fetchBookList() async {
-    Response<dynamic> data = await apiService.get(
-      endPoint: ApiConstants.bookList,
-    );
+    var response = await apiService.get(endPoint: ApiConstants.bookList);
 
     List<BookEntity> books = [];
 
-    for (var bookMap in data.data['items']) {
-      books.add(BookModel.fromJson(bookMap));
+    //  for (var bookMap in data['items']) {
+    //   books.add(BookModel.fromJson(bookMap));
+    // }
+
+    final items = response.data['items'] as List?;
+
+    if (items == null) {
+      return [];
     }
 
+    //  for(var bookMap in items)
+    //  {
+    //  books.add(bookMap);
+    //  }
+    books = items.map((bookMap) => BookModel.fromJson(bookMap)).toList();
     return books;
   }
 }
