@@ -7,7 +7,7 @@ import 'package:book_store/src/features/authentication/presentation/pages/login_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +17,7 @@ void main() async {
 
   runApp( ProviderScope(child: BookStoreApp()));
 
-  
+  await Hive.initFlutter();
   Hive.registerAdapter(BookEntityAdapter());
   await Hive.openBox<BookEntity>(kBookBox);
 
