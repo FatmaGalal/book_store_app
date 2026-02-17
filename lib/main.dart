@@ -36,7 +36,7 @@ class BookStoreApp extends StatelessWidget {
         fontFamily: 'Montserrat',
       ).copyWith(scaffoldBackgroundColor: kLightBGColor),
 
-      home: const BookListingPage(),
+      home: const LoginPage(),
     );
   }
 }
