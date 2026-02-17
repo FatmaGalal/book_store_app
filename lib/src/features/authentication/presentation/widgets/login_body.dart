@@ -8,7 +8,6 @@ import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
-import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +21,6 @@ class LoginBody extends ConsumerStatefulWidget {
 }
 
 class _LoginBodyState extends ConsumerState<LoginBody> {
- 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
@@ -84,7 +82,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
                     buttonText: 'Login',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        ref.read(loginProvider.notifier).login();                   
+                        ref.read(loginProvider.notifier).login();
                       }
                     },
                   ),

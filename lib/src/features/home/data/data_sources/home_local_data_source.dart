@@ -10,8 +10,8 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   @override
   List<BookEntity> fetchBookList() {
    List<BookEntity> booksList=[];
-    //var books = Hive.box<BookEntity>(kBookBox);
-    //List<BookEntity> booksList = books.values.toList();
+    var books = Hive.box<BookEntity>(kBookBox);
+    booksList = books.values.toList();
     return booksList;
   }
 }

@@ -1,9 +1,7 @@
 import 'package:book_store/src/features/home/data/models/books_list_states.dart';
 import 'package:book_store/src/features/home/domain/repos/home_repo.dart';
 import 'package:book_store/src/features/home/presentation/providers/home_repo_provider.dart';
-
 import 'package:flutter_riverpod/legacy.dart';
-
 
 final booksListProvider =
     StateNotifierProvider<BooksNotifier, BooksListState>(

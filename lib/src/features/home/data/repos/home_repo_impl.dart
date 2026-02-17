@@ -7,11 +7,11 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 class HomeRepoImpl extends HomeRepo {
-  //final HomeLocalDataSource homeLocalDataSource;
+  final HomeLocalDataSource homeLocalDataSource;
   final HomeRemoteDataSource homeRemoteDataSource;
 
   HomeRepoImpl({
-    //required this.homeLocalDataSource,
+    required this.homeLocalDataSource,
     required this.homeRemoteDataSource,
   });
   @override

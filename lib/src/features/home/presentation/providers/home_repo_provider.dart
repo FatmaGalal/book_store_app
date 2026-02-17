@@ -10,6 +10,6 @@ final homeRepoProvider = Provider((ref) {
     homeRemoteDataSource: HomeRemoteDataSourceImpl(
       apiService: ApiService(dio: Dio()),
     ),
-   // homeLocalDataSource: HomeLocalDataSourceImpl(), 
+    homeLocalDataSource: HomeLocalDataSourceImpl(), 
   );
 });
