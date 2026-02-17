@@ -1,5 +1,6 @@
 import 'package:book_store/src/core/components/custom_text_field.dart';
-import 'package:book_store/src/features/home/presentation/widgets/custom_icon.dart';
+import 'package:book_store/src/core/components/custom_icon.dart';
+import 'package:book_store/src/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -25,7 +26,7 @@ class CustomAppBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(title, style: TextStyle(fontSize: 20,color: kPrimaryColor, fontWeight: FontWeight.bold)),
       
           isSearch
               ? Expanded(
