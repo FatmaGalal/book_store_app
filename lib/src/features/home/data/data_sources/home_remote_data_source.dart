@@ -1,10 +1,8 @@
 import 'package:book_store/src/core/constants/api_constants.dart';
-import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/home/data/data_sources/api_service.dart';
+import 'package:book_store/src/features/home/data/data_sources/save_books.dart';
 import 'package:book_store/src/features/home/data/models/book_model.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
-import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<BookEntity>> fetchBookList();
@@ -23,8 +21,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
     //  for (var bookMap in data['items']) {
     //   books.add(BookModel.fromJson(bookMap));
     // }
-
-    final items = response.data['items'] as List?;
+    final items = response['items'] as List?;
 
     if (items == null) {
       return [];
@@ -35,6 +32,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
     //  books.add(bookMap);
     //  }
     books = items.map((bookMap) => BookModel.fromJson(bookMap)).toList();
+   // saveAllBooks(books);
     return books;
   }
 }

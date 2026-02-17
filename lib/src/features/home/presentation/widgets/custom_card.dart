@@ -1,9 +1,8 @@
-import 'package:book_store/src/features/home/data/models/book_model.dart';
+import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:flutter/material.dart';
 
-
 class CustomCard extends StatelessWidget {
-  final BookModel book;
+  final BookEntity book;
 
   const CustomCard({required this.book, super.key});
 
@@ -41,7 +40,7 @@ class CustomCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                       book.volumeInfo!.title!.substring(0,10),
+                        book.title!,
                         maxLines: 1,
                         style: TextStyle(color: Colors.black38),
                       ),
@@ -49,10 +48,7 @@ class CustomCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                         children: [
-                          Text(
-                            '',
-                            style: TextStyle(color: Colors.black38),
-                          ),
+                          Text('', style: TextStyle(color: Colors.black38)),
                           Icon(Icons.favorite, color: Colors.red),
                         ],
                       ),
@@ -65,7 +61,11 @@ class CustomCard extends StatelessWidget {
             Positioned(
               left: 70,
               bottom: 100,
-              child: Image.network(book.volumeInfo!.imageLinks!.smallThumbnail!, height: 80, width: 80),
+              child: Image.network(
+                book.imageLink?? '',
+                height: 80,
+                width: 80,
+              ),
             ),
           ],
         ),

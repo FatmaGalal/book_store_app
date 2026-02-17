@@ -11,11 +11,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(BookEntityAdapter());
-  await Hive.openBox<BookEntity>(kBookBox);
-
   WidgetsFlutterBinding.ensureInitialized();
+  //await Hive.initFlutter();
+  //Hive.registerAdapter(BookEntityAdapter());
+  //await Hive.openBox<BookEntity>(kBookBox);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(ProviderScope(child: BookStoreApp()));
@@ -40,7 +39,7 @@ class BookStoreApp extends StatelessWidget {
         fontFamily: 'Montserrat',
       ).copyWith(scaffoldBackgroundColor: kLightBGColor),
 
-      home: const BookListingPage(),
+      home: const LoginPage(),
     );
   }
 }
