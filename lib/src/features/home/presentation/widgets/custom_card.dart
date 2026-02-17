@@ -10,7 +10,7 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "DetailsPage.id", arguments: book);
+        //TODO: Navigate to details Page
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -28,8 +28,8 @@ class CustomCard extends StatelessWidget {
                   ),
                 ],
               ),
-              height: 100,
-              width: 180,
+              height: 200,
+              width: 200,
               child: Card(
                 elevation: 3,
                 color: Colors.white,
@@ -39,9 +39,10 @@ class CustomCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      
                       Text(
                         book.title!,
-                        maxLines: 1,
+                        maxLines: 3,
                         style: TextStyle(color: Colors.black38),
                       ),
                       Row(
@@ -61,11 +62,7 @@ class CustomCard extends StatelessWidget {
             Positioned(
               left: 70,
               bottom: 100,
-              child: Image.network(
-                book.imageLink?? '',
-                height: 80,
-                width: 80,
-              ),
+              child: Image.network(book.imageLink ?? '', height: 80, width: 80),
             ),
           ],
         ),

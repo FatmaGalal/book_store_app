@@ -13,10 +13,22 @@ class BookListingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: BooksListView(),
+      child: Column(
+        children: [
+          CustomAppBar(
+            title: 'BOOK STORE',
+            
+            icon: Icons.bookmark,
+            onPress: () {
+              //TODO: Nativagte to bookmark page
+            },
+          ),
+
+          Expanded(child: BooksListView()),
+        ],
+      ),
     );
   }
 }
