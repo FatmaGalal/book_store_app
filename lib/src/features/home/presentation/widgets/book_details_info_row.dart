@@ -21,7 +21,7 @@ class InfoRow extends StatelessWidget {
         Icon(icon, size: 18),
         const SizedBox(width: 10),
         Expanded(
-          child: Text("$label: $value", style: theme.textTheme.bodyMedium),
+          child: Text('$label: $value', style: theme.textTheme.bodyMedium),
         ),
       ],
     );

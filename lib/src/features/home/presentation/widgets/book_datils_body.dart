@@ -19,7 +19,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
     final theme = Theme.of(context);
     final book = ModalRoute.of(context)!.settings.arguments as BookEntity;
 
-    String valueOrUnknown(String? value, [String fallback = "Unknown"]) {
+    String valueOrUnknown(String? value, [String fallback = 'Unknown']) {
       if (value == null || value.trim().isEmpty) return fallback;
       return value;
     }
@@ -57,7 +57,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: kTextDarkColor,
                       ),
                     ),
 
@@ -85,7 +85,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            valueOrUnknown(book.categories, "General"),
+                            valueOrUnknown(book.categories, 'General'),
                             style: TextStyle(
                               color: kPrimaryColor,
                               fontSize: 12,
@@ -96,13 +96,15 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
                         Consumer(
                           builder: (context, ref, _) {
-                            final favorites = ref.watch(favoritesProvider.notifier);
-                             final isFav = favorites.isFavorite(book.bookId);
-                          
+                            final favorites = ref.watch(
+                              favoritesProvider.notifier,
+                            );
+                            final isFav = favorites.isFavorite(book.bookId);
+
                             final notifier = ref.read(
                               favoritesProvider.notifier,
                             );
-                           
+
                             return IconButton(
                               icon: Icon(
                                 isFav ? Icons.favorite : Icons.favorite_border,
@@ -126,29 +128,29 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
           const SizedBox(height: 24),
 
-          /// ===== DETAILS SECTION =====
+          /// --- DETAILS SECTION ---
           InfoRow(
             icon: Icons.business,
-            label: "Publisher",
+            label: 'Publisher',
             value: (book.publisher?.isNotEmpty ?? false)
                 ? book.publisher!
-                : "Unknown",
+                : 'Unknown',
           ),
 
           const SizedBox(height: 10),
 
           InfoRow(
             icon: Icons.calendar_today,
-            label: "Published",
-            value: valueOrUnknown(book.publishedDate?.toUpperCase()),
+            label: 'Published',
+            value: valueOrUnknown(book.publishedDate),
           ),
 
           const SizedBox(height: 10),
 
           InfoRow(
             icon: Icons.language,
-            label: "Language",
-            value: book.language?.toUpperCase() ?? "N/A",
+            label: 'Language',
+            value: book.language?.toUpperCase() ?? 'N/A',
           ),
 
           const SizedBox(height: 20),
@@ -157,7 +159,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
           const SizedBox(height: 12),
 
-          Text("Book ID: ${book.bookId}", style: theme.textTheme.bodySmall),
+          Text('Book ID: ${book.bookId}'),
         ],
       ),
     );
