@@ -2,6 +2,7 @@ import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:book_store/src/features/home/presentation/providers/favorites_provider.dart';
+import 'package:book_store/src/features/home/presentation/widgets/book_details_info_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -95,10 +96,9 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
                         Consumer(
                           builder: (context, ref, _) {
-                            final favorites = ref.watch(favoritesProvider);
-                            final isFav = favorites.any(
-                              (b) => b.bookId == book.bookId,
-                            );
+                            final favorites = ref.watch(favoritesProvider.notifier);
+                             final isFav = favorites.isFavorite(book.bookId);
+                          
                             final notifier = ref.read(
                               favoritesProvider.notifier,
                             );
@@ -160,34 +160,6 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
           Text("Book ID: ${book.bookId}", style: theme.textTheme.bodySmall),
         ],
       ),
-    );
-  }
-}
-
-class InfoRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const InfoRow({super.key, 
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 18),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text("$label: $value", style: theme.textTheme.bodyMedium),
-        ),
-      ],
     );
   }
 }

@@ -14,7 +14,11 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(context, BookDetailsPage.id, arguments:  book);
+        Navigator.pushReplacementNamed(
+          context,
+          BookDetailsPage.id,
+          arguments: book,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -43,7 +47,6 @@ class CustomCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      
                       Text(
                         book.title!,
                         maxLines: 3,
@@ -54,30 +57,30 @@ class CustomCard extends StatelessWidget {
 
                         children: [
                           Text('', style: TextStyle(color: kTextDarkColor)),
-                          // Icon(Icons.favorite, color: kIconActiveColor1),
-                           Consumer(
-                          builder: (context, ref, _) {
-                            final favorites = ref.watch(favoritesProvider);
-                            final isFav = favorites.any(
-                              (b) => b.bookId == book.bookId,
-                            );
-                            final notifier = ref.read(
-                              favoritesProvider.notifier,
-                            );
-                           
-                            return IconButton(
-                              icon: Icon(
-                                isFav ? Icons.favorite : Icons.favorite_border,
-                                color: isFav
-                                    ? kIconActiveColor1
-                                    : kIconDimmedColor1,
-                              ),
-                              onPressed: () {
-                                notifier.toggleFavorite(book);
-                              },
-                            );
-                          },
-                        ),
+
+                          Consumer(
+                            builder: (context, ref, _) {
+                              final notifier = ref.watch(
+                                favoritesProvider.notifier,
+                              );
+
+                              final isFav = notifier.isFavorite(book.bookId);
+
+                              return IconButton(
+                                icon: Icon(
+                                  isFav
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isFav
+                                      ? kIconActiveColor1
+                                      : kIconDimmedColor1,
+                                ),
+                                onPressed: () {
+                                  notifier.toggleFavorite(book);
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],
