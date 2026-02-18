@@ -25,7 +25,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

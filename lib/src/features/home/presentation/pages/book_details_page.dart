@@ -12,15 +12,15 @@ class BookDetailsPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+          padding: const EdgeInsets.all(0),
+          child: Column( 
             children: [
               CustomAppBar(
                 title: 'BOOK STORE',
-
+                hasBackButton: true,
                 icon: Icons.bookmark,
                 onPress: () {
-                  //TODO: Nativagte to bookmark page
+                  //TODO: Nativagte to bookmarks List page
                 },
               ),
 
