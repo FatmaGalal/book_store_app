@@ -1,8 +1,8 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
-import 'package:book_store/src/features/home/presentation/providers/favorites_provider.dart';
 import 'package:book_store/src/features/home/presentation/widgets/book_details_info_row.dart';
+import 'package:book_store/src/features/home/presentation/widgets/favorite_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,6 +38,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                 child: SizedBox(
                   width: 90,
                   height: 130,
+
                   child: book.imageLink != null
                       ? Image.network(book.imageLink!, fit: BoxFit.cover)
                       : Image.asset(AssetsData.book),
@@ -94,30 +95,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                           ),
                         ),
 
-                        Consumer(
-                          builder: (context, ref, _) {
-                            ref.watch(favoritesProvider);
-                            
-                            final notifier = ref.read(
-                              favoritesProvider.notifier,
-                            );
-
-                            final isFav = notifier.isFavorite(book.bookId);
-
-
-                            return IconButton(
-                              icon: Icon(
-                                isFav ? Icons.favorite : Icons.favorite_border,
-                                color: isFav
-                                    ? kIconActiveColor1
-                                    : kIconDimmedColor1,
-                              ),
-                              onPressed: () {
-                                notifier.toggleFavorite(book);
-                              },
-                            );
-                          },
-                        ),
+                        FavoritIcon(book: book),
                       ],
                     ),
                   ],

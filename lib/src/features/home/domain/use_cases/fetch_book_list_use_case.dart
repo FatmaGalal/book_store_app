@@ -11,6 +11,6 @@ class FetchBookListUseCase extends UseCase<List<BookEntity>, NoParam> {
 
   @override
   Future<Either<Failure, List<BookEntity>>> call([NoParam? param]) {
-    return homeRepo.fetchBookList();
+    return homeRepo.fetchBookList(forceRefresh: false);
   }
 }
