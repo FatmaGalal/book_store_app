@@ -3,4 +3,5 @@ class RouteConstants {
   static const signUpPage = '/signup';
   static const homePage = '/home';
   static const bookListingPage = '/booklisting';
+  static const bookDetailsgPage = '/bookdetails';
 }

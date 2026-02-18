@@ -1,5 +1,6 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
+import 'package:book_store/src/features/home/presentation/pages/book_details_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
@@ -11,7 +12,7 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO: Navigate to details Page
+        Navigator.pushReplacementNamed(context, BookDetailsPage.id, arguments:  book);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

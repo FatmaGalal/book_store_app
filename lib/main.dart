@@ -1,6 +1,7 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/helpers/init_hive.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
+import 'package:book_store/src/features/home/presentation/pages/book_details_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
@@ -25,10 +26,10 @@ class BookStoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        HomePage.id: (context) => HomePage(),
         SignUpPage.id: (context) => SignUpPage(),
         LoginPage.id: (context) => LoginPage(),
         BookListingPage.id: (context) => BookListingPage(),
+        BookDetailsPage.id: (context) => BookDetailsPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Book Store',
@@ -36,7 +37,7 @@ class BookStoreApp extends StatelessWidget {
         fontFamily: 'Montserrat',
       ).copyWith(scaffoldBackgroundColor: kLightBGColor),
 
-      home: const LoginPage(),
+      home: const BookListingPage(),
     );
   }
 }
