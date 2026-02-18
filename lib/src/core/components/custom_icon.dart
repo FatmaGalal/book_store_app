@@ -1,3 +1,4 @@
+import 'package:book_store/src/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomIcon extends StatelessWidget {
@@ -13,7 +14,7 @@ final IconData icon;
         width: 48,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
         
-        color: Colors.white10, ),
+        color: kHighlightBGColor ),
         child: Center(child: IconButton(onPressed:onPress, icon: Icon(icon), iconSize: 28,)),
       ),
     );

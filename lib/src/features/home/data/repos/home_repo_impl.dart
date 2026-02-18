@@ -20,7 +20,14 @@ class HomeRepoImpl extends HomeRepo {
       List<BookEntity> books = await homeRemoteDataSource.fetchBookList();
       return right(books);
     } catch (e) {
-      if (e is DioException) {
+      
+      final cachedBooks = homeLocalDataSource.fetchBookList();
+
+      if (cachedBooks.isNotEmpty) {
+        return right(cachedBooks);
+      }
+      else if (e is DioException) 
+      {
         return left(ServerFailure.fromDioError(e));
       }
 

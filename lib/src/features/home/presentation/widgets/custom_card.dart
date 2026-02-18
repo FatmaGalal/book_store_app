@@ -1,3 +1,4 @@
+import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -49,8 +50,8 @@ class CustomCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                         children: [
-                          Text('', style: TextStyle(color: Colors.black38)),
-                          Icon(Icons.favorite, color: Colors.red),
+                          Text('', style: TextStyle(color: kTextDarkColor)),
+                          Icon(Icons.favorite, color: kIconActiveColor1),
                         ],
                       ),
                     ],
