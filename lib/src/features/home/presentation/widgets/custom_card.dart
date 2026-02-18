@@ -60,7 +60,9 @@ class CustomCard extends StatelessWidget {
 
                           Consumer(
                             builder: (context, ref, _) {
-                              final notifier = ref.watch(
+                              ref.watch(favoritesProvider);
+
+                              final notifier = ref.read(
                                 favoritesProvider.notifier,
                               );
 

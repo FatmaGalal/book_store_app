@@ -96,14 +96,14 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
                         Consumer(
                           builder: (context, ref, _) {
-                            final favorites = ref.watch(
-                              favoritesProvider.notifier,
-                            );
-                            final isFav = favorites.isFavorite(book.bookId);
-
+                            ref.watch(favoritesProvider);
+                            
                             final notifier = ref.read(
                               favoritesProvider.notifier,
                             );
+
+                            final isFav = notifier.isFavorite(book.bookId);
+
 
                             return IconButton(
                               icon: Icon(
