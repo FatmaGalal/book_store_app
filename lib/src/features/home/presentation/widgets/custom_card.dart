@@ -1,7 +1,9 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_details_page.dart';
+import 'package:book_store/src/features/home/presentation/providers/favorites_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomCard extends StatelessWidget {
   final BookEntity book;
@@ -52,7 +54,30 @@ class CustomCard extends StatelessWidget {
 
                         children: [
                           Text('', style: TextStyle(color: kTextDarkColor)),
-                          Icon(Icons.favorite, color: kIconActiveColor1),
+                          // Icon(Icons.favorite, color: kIconActiveColor1),
+                           Consumer(
+                          builder: (context, ref, _) {
+                            final favorites = ref.watch(favoritesProvider);
+                            final isFav = favorites.any(
+                              (b) => b.bookId == book.bookId,
+                            );
+                            final notifier = ref.read(
+                              favoritesProvider.notifier,
+                            );
+                           
+                            return IconButton(
+                              icon: Icon(
+                                isFav ? Icons.favorite : Icons.favorite_border,
+                                color: isFav
+                                    ? kIconActiveColor1
+                                    : kIconDimmedColor1,
+                              ),
+                              onPressed: () {
+                                notifier.toggleFavorite(book);
+                              },
+                            );
+                          },
+                        ),
                         ],
                       ),
                     ],
