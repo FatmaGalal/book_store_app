@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget{
                     borderRadius: BorderRadius.circular(10),
                     color: kPrimaryColor,
                   ),
-                  child: Center(child: Text('$buttonText',style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),)),
+                  child: Center(child: Text('$buttonText',style: TextStyle(fontSize: 20, color: kButtonFontColor, fontWeight: FontWeight.w800),)),
                 ),
    );
   }

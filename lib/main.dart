@@ -1,5 +1,7 @@
 import 'package:book_store/src/core/constants/constants.dart';
+import 'package:book_store/src/core/helpers/init_hive.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/signup_page.dart';
+import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
 import 'package:book_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:book_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,11 +10,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp( ProviderScope(child: BookStoreApp()));
+  runApp(ProviderScope(child: BookStoreApp()));
 }
 
 class BookStoreApp extends StatelessWidget {
@@ -26,6 +28,7 @@ class BookStoreApp extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         SignUpPage.id: (context) => SignUpPage(),
         LoginPage.id: (context) => LoginPage(),
+        BookListingPage.id: (context) => BookListingPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Book Store',
