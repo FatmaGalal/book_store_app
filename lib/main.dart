@@ -45,7 +45,7 @@ class BookStoreApp extends StatelessWidget {
         scaffoldBackgroundColor: kDarkBGColor,
       ),
       themeMode: ThemeMode.system,
-      home: BookListingPage(),
+      home: LoginPage(),
     );
   }
 }
