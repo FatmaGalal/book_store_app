@@ -11,6 +11,10 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    
     return GestureDetector(
       onTap: () {
         Navigator.pushReplacementNamed(
@@ -29,7 +33,7 @@ class CustomCard extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 20,
-                    color: Colors.black12,
+                    color: isDark ? kDarkModeShadwColor : kLightModeShadwColor,
                     spreadRadius: 0,
                     offset: Offset(1, 1),
                   ),
@@ -39,7 +43,7 @@ class CustomCard extends StatelessWidget {
               width: 200,
               child: Card(
                 elevation: 3,
-                color: Colors.white,
+                color: isDark? kDarkBGColor: kLightBGColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -49,13 +53,15 @@ class CustomCard extends StatelessWidget {
                       Text(
                         book.title!,
                         maxLines: 2,
-                        style: TextStyle(color: Colors.black38),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                         children: [
-                          Text('', style: TextStyle(color: kTextDarkColor)),
+                          Text('', style: TextStyle(color:isDark ?kLightModeShadwColor: kTextDarkColor )),
 
                           FavoritIcon(book: book),
                         ],
@@ -77,4 +83,3 @@ class CustomCard extends StatelessWidget {
     );
   }
 }
-
