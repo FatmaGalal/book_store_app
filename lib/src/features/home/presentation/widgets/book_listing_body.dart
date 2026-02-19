@@ -1,4 +1,5 @@
 import 'package:book_store/src/core/components/custom_app_bar.dart';
+import 'package:book_store/src/features/home/presentation/pages/favorite_books_page.dart';
 import 'package:book_store/src/features/home/presentation/widgets/book_listing_view.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +15,8 @@ class BookListingBody extends StatelessWidget {
           CustomAppBar(
             title: 'BOOK STORE',
 
-            icon: Icons.bookmark,
             onPress: () {
-              //TODO: Nativagte to bookmark page
+              Navigator.pushReplacementNamed(context, FavoriteBooksPage.id);
             },
           ),
 

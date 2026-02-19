@@ -10,12 +10,19 @@ final booksListProvider = StateNotifierProvider<BooksNotifier, BooksListState>(
 class BooksNotifier extends StateNotifier<BooksListState> {
   final HomeRepo homeRepo;
 
-  BooksNotifier(this.homeRepo) : super(const BooksListState());
+  //BooksNotifier(this.homeRepo) : super(const BooksListState());
+  BooksNotifier(this.homeRepo) : super(const BooksListState()) {
+    fetchBooks();
+  }
 
-  Future<void> fetchBooks() async {
+  Future<void> fetchBooks() async { 
+    if (state.isLoading) return;
+
     state = state.copyWith(isLoading: true, error: null);
 
-    final result = await homeRepo.fetchBookList();
+    final result = await homeRepo.fetchBookList(
+      forceRefresh: false,
+    );
 
     result.fold(
       (failure) {
@@ -23,6 +30,34 @@ class BooksNotifier extends StateNotifier<BooksListState> {
       },
       (books) {
         state = state.copyWith(isLoading: false, books: books);
+      },
+    );
+  }
+
+
+   Future<void> refreshBooks() async {
+   
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await homeRepo.fetchBookList(
+      forceRefresh: true, 
+    );
+
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+        );
+      },
+      (books) {
+        state = state.copyWith(
+          isLoading: false,
+          books: books,
+          error: null,
+        );
       },
     );
   }

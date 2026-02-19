@@ -1,36 +1,33 @@
 import 'package:book_store/src/core/components/custom_app_bar.dart';
 import 'package:book_store/src/core/constants/route_constants.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
-import 'package:book_store/src/features/home/presentation/pages/favorite_books_page.dart';
-import 'package:book_store/src/features/home/presentation/widgets/book_datils_body.dart';
+import 'package:book_store/src/features/home/presentation/widgets/favorite_book_body.dart';
 import 'package:flutter/material.dart';
 
-class BookDetailsPage extends StatelessWidget {
-  const BookDetailsPage({super.key});
-   static String id = RouteConstants.bookDetailsgPage;
-
+class FavoriteBooksPage extends StatelessWidget{
+  const FavoriteBooksPage({super.key});
+ static const id=RouteConstants.favoritesPage;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   
+     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Column( 
             children: [
               CustomAppBar(
-                title: 'BOOK STORE',
+                title: 'My Favorites',
                 hasBackButton: true,
+                hasIcon: false,
                 onBackPressed: (){
                   Navigator.popAndPushNamed(context, BookListingPage.id);
                 },
-                
-                //icon: Icons.bookmark,
-                onPress: () {
-                 Navigator.pushReplacementNamed(context, FavoriteBooksPage.id);
-                },
+               
+               
               ),
 
-              Expanded(child: BookDatilsBody()),
+              Expanded(child: FavoriteBookBody()),
             ],
           ),
         ),

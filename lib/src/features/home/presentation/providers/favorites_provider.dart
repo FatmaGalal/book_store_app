@@ -10,15 +10,17 @@ final favoritesProvider =
 
 class FavoritesNotifier extends StateNotifier<List<BookEntity>> {
   FavoritesNotifier() : super([]) {
-    _loadFavorites();
+    loadFavorites();
   }
 
   Box<BookEntity> get _box =>
       Hive.box<BookEntity>(kfavoriteBooksBox);
 
-  /// Load from Hive
-  void _loadFavorites() {
-    state = _box.values.toList();
+   /// Load favorite books
+   List<BookEntity> loadFavorites() {
+    final favorites = _box.values.toList();
+    state = favorites;
+    return favorites;
   }
 
   /// Check if book is favorite
@@ -34,6 +36,6 @@ class FavoritesNotifier extends StateNotifier<List<BookEntity>> {
       await _box.put(book.bookId, book);
     }
 
-    _loadFavorites();
+    loadFavorites();
   }
 }

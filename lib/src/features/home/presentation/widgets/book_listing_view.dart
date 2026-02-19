@@ -33,16 +33,22 @@ class _BooksListPageState extends ConsumerState<BooksListView> {
     return ModalProgressHUD(
       inAsyncCall: state.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
-      child: GridView.builder(
-        itemCount: state.books.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemBuilder: (context, index) {
-          final book = state.books[index];
-      
-          return CustomCard(book: book);
+      child: RefreshIndicator(
+        color: kPrimaryColor,
+        onRefresh: () async {
+          await ref.read(booksListProvider.notifier).refreshBooks();
         },
+        child: GridView.builder(
+          itemCount: state.books.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemBuilder: (context, index) {
+            final book = state.books[index];
+
+            return CustomCard(book: book);
+          },
+        ),
       ),
     );
   }
