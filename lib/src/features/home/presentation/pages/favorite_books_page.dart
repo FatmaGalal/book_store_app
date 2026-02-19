@@ -21,7 +21,7 @@ class FavoriteBooksPage extends StatelessWidget{
                 hasBackButton: true,
                 hasIcon: false,
                 onBackPressed: (){
-                  Navigator.popAndPushNamed(context, BookListingPage.id);
+                  Navigator.pop(context, BookListingPage.id);
                 },
                
                

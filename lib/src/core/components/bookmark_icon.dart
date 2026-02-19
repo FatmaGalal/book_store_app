@@ -20,14 +20,14 @@ class BookmarkIcon extends StatelessWidget {
         if (favorites.isNotEmpty) {
           return IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, FavoriteBooksPage.id);
+              Navigator.pushNamed(context, FavoriteBooksPage.id);
             },
             icon: Icon(Icons.bookmark, color: kPrimaryColor, size: 35,),
           );
         } else {
           return IconButton(
             onPressed: () {},
-            icon: Icon(Icons.bookmark, color: kIconDimmedColor1),
+            icon: Icon(Icons.bookmark, color: kIconDimmedColor1, size: 35,),
           );
         }
       },

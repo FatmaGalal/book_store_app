@@ -17,7 +17,7 @@ class CustomCard extends StatelessWidget {
     
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamed(
           context,
           BookDetailsPage.id,
           arguments: book,

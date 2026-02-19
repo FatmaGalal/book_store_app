@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class BookDetailsPage extends StatelessWidget {
   const BookDetailsPage({super.key});
-   static String id = RouteConstants.bookDetailsgPage;
+  static String id = RouteConstants.bookDetailsgPage;
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +15,18 @@ class BookDetailsPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(0),
-          child: Column( 
+          child: Column(
             children: [
               CustomAppBar(
                 title: 'BOOK STORE',
                 hasBackButton: true,
-                onBackPressed: (){
-                  Navigator.popAndPushNamed(context, BookListingPage.id);
+                onBackPressed: () {
+                  Navigator.pop(context, BookListingPage.id);
                 },
-                
+
                 //icon: Icons.bookmark,
                 onPress: () {
-                 Navigator.pushReplacementNamed(context, FavoriteBooksPage.id);
+                  Navigator.pushNamed(context, FavoriteBooksPage.id);
                 },
               ),
 
