@@ -15,6 +15,14 @@ class BookEntity {
   final String? categories;
   @HiveField(5)
   final String? imageLink;
+  @HiveField(6)
+  final String? imageLinkLarg;
+  @HiveField(7)
+  final String? publisher;
+  @HiveField(8)
+  final String? publishedDate;
+  @HiveField(9)
+  final String? language;
 
   const BookEntity({
     required this.bookId,
@@ -23,5 +31,9 @@ class BookEntity {
     required this.authors,
     required this.categories,
     required this.imageLink,
+    this.imageLinkLarg,
+    this.publisher,
+    this.publishedDate,
+    this.language,
   });
 }

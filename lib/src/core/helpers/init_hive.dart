@@ -11,4 +11,7 @@ Future<void> initHive() async {
   if (!Hive.isBoxOpen(kBookBox)) {
     await Hive.openBox<BookEntity>(kBookBox);
   }
+  if (!Hive.isBoxOpen(kfavoriteBooksBox)) {
+    await Hive.openBox<BookEntity>(kfavoriteBooksBox);
+  }
 }
