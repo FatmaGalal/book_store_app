@@ -16,7 +16,7 @@ class BookListingBody extends StatelessWidget {
             title: 'BOOK STORE',
 
             onPress: () {
-              Navigator.pushReplacementNamed(context, FavoriteBooksPage.id);
+              Navigator.pushNamed(context, FavoriteBooksPage.id);
             },
           ),
 

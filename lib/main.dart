@@ -30,15 +30,22 @@ class BookStoreApp extends StatelessWidget {
         LoginPage.id: (context) => LoginPage(),
         BookListingPage.id: (context) => BookListingPage(),
         BookDetailsPage.id: (context) => BookDetailsPage(),
-        FavoriteBooksPage.id:(context)=>FavoriteBooksPage(),
+        FavoriteBooksPage.id: (context) => FavoriteBooksPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Book Store',
       theme: ThemeData(
+        brightness: Brightness.light,
         fontFamily: 'Montserrat',
-      ).copyWith(scaffoldBackgroundColor: kLightBGColor),
-
-      home: const BookListingPage(),
+        scaffoldBackgroundColor: kLightBGColor,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Montserrat',
+        scaffoldBackgroundColor: kDarkBGColor,
+      ),
+      themeMode: ThemeMode.system,
+      home: LoginPage(),
     );
   }
 }

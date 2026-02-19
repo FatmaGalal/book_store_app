@@ -17,6 +17,9 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
     final book = ModalRoute.of(context)!.settings.arguments as BookEntity;
 
     String valueOrUnknown(String? value, [String fallback = 'Unknown']) {
@@ -58,7 +61,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: kTextDarkColor,
+                        color:colorScheme.onSurface,
                       ),
                     ),
 
@@ -67,7 +70,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                     Text(
                       valueOrUnknown(book.authors),
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: kTextDarkColor,
+                        color: colorScheme.onSurface,
                       ),
                     ),
 

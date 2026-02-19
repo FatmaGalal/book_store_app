@@ -14,6 +14,9 @@ class FavoritIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return Consumer(
       builder: (context, ref, _) {
         ref.watch(favoritesProvider);
@@ -31,7 +34,7 @@ class FavoritIcon extends StatelessWidget {
                 : Icons.favorite_border,
             color: isFav
                 ? kIconActiveColor1
-                : kIconDimmedColor1,
+                : isDark?kLightBGColor: kIconDimmedColor1,
           ),
           onPressed: () {
             notifier.toggleFavorite(book);
