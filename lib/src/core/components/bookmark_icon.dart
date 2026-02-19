@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BookmarkIcon extends StatelessWidget {
   const BookmarkIcon({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
