@@ -34,6 +34,7 @@ class _BooksListPageState extends ConsumerState<BooksListView> {
       inAsyncCall: state.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
       child: RefreshIndicator(
+        color: kPrimaryColor,
         onRefresh: () async {
           await ref.read(booksListProvider.notifier).refreshBooks();
         },

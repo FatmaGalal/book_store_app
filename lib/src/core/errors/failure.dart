@@ -38,6 +38,10 @@ class ServerFailure extends Failure {
   }
   factory ServerFailure.fromResponse(int statusCode, dynamic response)
   {
+    if(statusCode==429)
+    {
+      return ServerFailure('Too Many Requests');
+    }
     if(statusCode==404)
     {
       return ServerFailure('Request not found');
