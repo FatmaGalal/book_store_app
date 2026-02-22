@@ -1,6 +1,6 @@
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
 final favoritesProvider =

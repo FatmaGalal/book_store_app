@@ -1,7 +1,8 @@
 import 'package:book_store/src/features/home/presentation/providers/books_list_states.dart';
 import 'package:book_store/src/features/home/domain/repos/home_repo.dart';
 import 'package:book_store/src/features/home/data/repos/home_repo_provider.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 final booksListProvider = StateNotifierProvider<BooksNotifier, BooksListState>(
   (ref) => BooksNotifier(ref.read(homeRepoProvider)),
