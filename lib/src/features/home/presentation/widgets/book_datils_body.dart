@@ -1,3 +1,4 @@
+import 'package:book_store/l10n/app_localizations.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:book_store/src/features/home/domain/entities/book_entity.dart';
@@ -17,12 +18,13 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context)!;
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
 
     final book = ModalRoute.of(context)!.settings.arguments as BookEntity;
 
-    String valueOrUnknown(String? value, [String fallback = 'Unknown']) {
+    String valueOrUnknown(String? value, String fallback) {
       if (value == null || value.trim().isEmpty) return fallback;
       return value;
     }
@@ -56,7 +58,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      valueOrUnknown(book.title),
+                      valueOrUnknown(book.title, t.unknown),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge?.copyWith(
@@ -68,7 +70,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                     const SizedBox(height: 8),
 
                     Text(
-                      valueOrUnknown(book.authors),
+                      valueOrUnknown(book.authors, t.unknown),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurface,
                       ),
@@ -89,7 +91,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            valueOrUnknown(book.categories, 'General'),
+                            valueOrUnknown(book.categories, t.general),
                             style: TextStyle(
                               color: kPrimaryColor,
                               fontSize: 12,
@@ -112,26 +114,26 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
           /// --- DETAILS SECTION ---
           InfoRow(
             icon: Icons.business,
-            label: 'Publisher',
+            label: t.publisher,
             value: (book.publisher?.isNotEmpty ?? false)
                 ? book.publisher!
-                : 'Unknown',
+                : t.unknown,
           ),
 
           const SizedBox(height: 10),
 
           InfoRow(
             icon: Icons.calendar_today,
-            label: 'Published',
-            value: valueOrUnknown(book.publishedDate),
+            label: t.published,
+            value: valueOrUnknown(book.publishedDate, t.unknown),
           ),
 
           const SizedBox(height: 10),
 
           InfoRow(
             icon: Icons.language,
-            label: 'Language',
-            value: book.language?.toUpperCase() ?? 'N/A',
+            label: t.language,
+            value: book.language?.toUpperCase() ?? t.unknown,
           ),
 
           const SizedBox(height: 20),
@@ -140,7 +142,7 @@ class _BookDatilsBodyState extends ConsumerState<BookDatilsBody> {
 
           const SizedBox(height: 12),
 
-          Text('Book ID: ${book.bookId}'),
+          Text( '${t.bookId}: ${book.bookId}'),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:book_store/src/features/home/data/models/search_info.dart';
 import 'package:book_store/src/features/home/data/models/volume_model.dart';
 
 class BookModel extends BookEntity {
+  @override
   final String? kind;
   final String id;
   final String? etag;

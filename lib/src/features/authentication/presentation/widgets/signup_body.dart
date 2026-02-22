@@ -1,3 +1,4 @@
+import 'package:book_store/l10n/app_localizations.dart';
 import 'package:book_store/src/core/components/custom_button.dart';
 import 'package:book_store/src/features/authentication/domain/firebase_auth_errors.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/signup_provider.dart';
@@ -25,7 +26,7 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(signUpProvider);
-
+    final t = AppLocalizations.of(context)!;
     ref.listen(signUpProvider, (previous, next) {
       next.whenOrNull(
         data: (data) {
@@ -59,7 +60,7 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   CustomFormTextfield(
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    textFieldHint: 'Email',
+                    textFieldHint: t.emailHint,
                     onChanged: (data) {
                       ref.read(signUpProvider.notifier).updateEmail(data);
                     },
@@ -70,7 +71,7 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
-                    textFieldHint: 'Password',
+                    textFieldHint: t.passwordHint,
                     textInputAction: TextInputAction.next,
                     onChanged: (data) {
                       ref.read(signUpProvider.notifier).updatePassword(data);
@@ -83,7 +84,7 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   SizedBox(height: 12),
 
                   CustomFormTextfield(
-                    textFieldHint: 'Confirm Password',
+                    textFieldHint: t.confirmPasswordHint,
                     textInputAction: TextInputAction.done,
                     onChanged: (data) {
                       ref
@@ -99,9 +100,13 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                   SizedBox(height: 24),
 
                   CustomButton(
-                    buttonText: 'Sign Up',
+                    buttonText: t.signupTitle,
                     onTap: () async {
-                      ref.read(signUpProvider.notifier).registerNewUser();
+                      if (_formKey.currentState!.validate()) {
+                        await ref
+                            .read(signUpProvider.notifier)
+                            .registerNewUser();
+                      }
                     },
                   ),
 
@@ -111,15 +116,14 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'You already have an account! ',
+                        t.haveAccount,
                         style: TextStyle(fontSize: 16, color: kPrimaryColor),
                       ),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushReplacementNamed(context, LoginPage.id);
                         },
-                        child: Text(
-                          ' Login',
+                        child: Text( ' ${t.loginTitle}',
                           style: TextStyle(
                             fontSize: 18,
                             color: kPrimaryColor,
