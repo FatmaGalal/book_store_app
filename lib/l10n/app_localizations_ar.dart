@@ -27,10 +27,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmPasswordHint => 'تأكيد كلمة المرور';
 
   @override
-  String get noAccount => 'ليس لديك حساب؟';
+  String get noAccount => 'ليس لديك حساب!';
 
   @override
-  String get haveAccount => 'لديك حساب بالفعل؟';
+  String get haveAccount => 'لديك حساب بالفعل!';
 
   @override
   String get detailsTitle => 'تفاصيل الكتاب';

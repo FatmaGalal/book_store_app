@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:book_store/l10n/app_localizations.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,16 +27,12 @@ class BookStoreApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-     final locale = ref.watch(localeProvider);
-
+    final locale = ref.watch(localeProvider);
 
     return MaterialApp(
       locale: locale,
-      supportedLocales: const[
-        Locale('en'),
-        Locale('ar'),
-      ],
-      localizationsDelegates: const[
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

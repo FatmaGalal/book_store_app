@@ -1,5 +1,5 @@
 import 'package:book_store/src/core/components/bookmark_icon.dart';
-import 'package:book_store/src/core/components/custom_text_field.dart';
+import 'package:book_store/src/core/components/language_switch_button.dart';
 import 'package:book_store/src/core/constants/constants.dart';
 import 'package:book_store/src/core/utils/assets_data.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget {
               icon: const Icon(Icons.arrow_back, color: kPrimaryColor),
               onPressed: onBackPressed,
             ),
-
+          
           /// -- logo------
           Padding(
             padding: const EdgeInsets.only(right: 0),
@@ -53,18 +53,9 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
 
-          isSearch
-              ? Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: CustomTextField(
-                      hint: 'Search',
-                      onChanged: onTextChanged,
-                    ),
-                  ),
-                )
-              : Spacer(),
+          Spacer(),
           if (hasIcon) BookmarkIcon(),
+           LanguageSwitchButton(),
         ],
       ),
     );

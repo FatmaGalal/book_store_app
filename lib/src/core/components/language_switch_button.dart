@@ -11,15 +11,15 @@ class LanguageSwitchButton extends StatelessWidget {
     return Consumer(
       builder: (context, ref, widget) {
         final theme = Theme.of(context);
-        final currentLocale = ref.watch(localeProvider);
         final isDark = theme.brightness == Brightness.dark;
-
+        ref.watch(localeProvider);
+        
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(20),
-          //   border: Border.all(color: kPrimaryColor),
-          // ),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: kPrimaryColor),
+          ),
           child: PopupMenuButton<Locale>(
             icon: const Icon(Icons.language, color: kPrimaryColor),
             onSelected: (Locale locale) {

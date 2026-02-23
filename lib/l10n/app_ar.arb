@@ -9,8 +9,8 @@
   "passwordHint": "كلمة المرور",
   "confirmPasswordHint": "تأكيد كلمة المرور",
 
-  "noAccount": "ليس لديك حساب؟",
-  "haveAccount": "لديك حساب بالفعل؟",
+  "noAccount": "ليس لديك حساب!",
+  "haveAccount": "لديك حساب بالفعل!",
 
   "detailsTitle": "تفاصيل الكتاب",
   "author": "المؤلف",

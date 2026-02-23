@@ -13,7 +13,7 @@ class BookmarkIcon extends StatelessWidget {
       builder: (context, ref, _) {
         ref.watch(favoritesProvider);
 
-        final notifier = ref.read(favoritesProvider.notifier);
+        ref.read(favoritesProvider.notifier);
 
         final favorites = ref.watch(favoritesProvider);
 
@@ -22,12 +22,12 @@ class BookmarkIcon extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, FavoriteBooksPage.id);
             },
-            icon: Icon(Icons.bookmark, color: kPrimaryColor, size: 35,),
+            icon: Icon(Icons.bookmark, color: kPrimaryColor, size: 35),
           );
         } else {
           return IconButton(
             onPressed: () {},
-            icon: Icon(Icons.bookmark, color: kIconDimmedColor1, size: 35,),
+            icon: Icon(Icons.bookmark, color: kIconDimmedColor1, size: 35),
           );
         }
       },
