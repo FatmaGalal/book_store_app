@@ -1,4 +1,6 @@
+import 'package:book_store/l10n/app_localizations.dart';
 import 'package:book_store/src/core/components/custom_button.dart';
+import 'package:book_store/src/core/components/language_switch_button.dart';
 import 'package:book_store/src/core/helpers/show_snak_bar_message.dart';
 import 'package:book_store/src/features/authentication/domain/firebase_auth_errors.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/login_provider.dart';
@@ -26,7 +28,7 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(loginProvider);
-
+    final t = AppLocalizations.of(context)!;
     ref.listen(loginProvider, (previous, next) {
       next.whenOrNull(
         data: (data) {
@@ -45,80 +47,94 @@ class _LoginBodyState extends ConsumerState<LoginBody> {
     return ModalProgressHUD(
       inAsyncCall: provider.isLoading,
       progressIndicator: CircularProgressIndicator(color: kPrimaryColor),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: [
-                  SizedBox(height: 170, child: Image.asset(AssetsData.logo)),
-                  SizedBox(height: 24),
-                  CustomFormTextfield(
-                    validator: Validators.requiredField,
-                    textFieldHint: 'User Name',
-                    onChanged: (data) {
-                      ref.read(loginProvider.notifier).updateEmail(data);
-                    },
-                  ),
-
-                  SizedBox(height: 12),
-
-                  CustomFormTextfield(
-                    validator: Validators.requiredField,
-                    textFieldHint: 'Password',
-                    onChanged: (data) {
-                      ref.read(loginProvider.notifier).updatePassword(data);
-                    },
-                    obscureText: true,
-                  ),
-
-                  SizedBox(height: 24),
-
-                  CustomButton(
-                    buttonText: 'Login',
-                    onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        ref.read(loginProvider.notifier).login();
-                      }
-                    },
-                  ),
-
-                  SizedBox(height: 16),
-
-                  Row(
+      child: Stack(
+        children: [
+          PositionedDirectional(
+            top: 12,
+            end: 12,
+            child: LanguageSwitchButton()),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+
                     children: [
-                      Text(
-                        'You don\'t have an account! ',
-                        style: TextStyle(fontSize: 16, color: kPrimaryColor),
+                      SizedBox(
+                        height: 170,
+                        child: Image.asset(AssetsData.logo),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            SignUpPage.id,
-                          );
+                      SizedBox(height: 24),
+                      CustomFormTextfield(
+                        validator: Validators.requiredField,
+                        textFieldHint: t.emailHint,
+                        onChanged: (data) {
+                          ref.read(loginProvider.notifier).updateEmail(data);
                         },
-                        child: Text(
-                          ' Sign Up ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.w600,
+                      ),
+
+                      SizedBox(height: 12),
+
+                      CustomFormTextfield(
+                        validator: Validators.requiredField,
+                        textFieldHint: t.passwordHint,
+                        onChanged: (data) {
+                          ref.read(loginProvider.notifier).updatePassword(data);
+                        },
+                        obscureText: true,
+                      ),
+
+                      SizedBox(height: 24),
+
+                      CustomButton(
+                        buttonText: t.loginTitle,
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            ref.read(loginProvider.notifier).login();
+                          }
+                        },
+                      ),
+
+                      SizedBox(height: 16),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            t.noAccount,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: kPrimaryColor,
+                            ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                SignUpPage.id,
+                              );
+                            },
+                            child: Text(
+                              ' ${t.signupTitle}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: kPrimaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

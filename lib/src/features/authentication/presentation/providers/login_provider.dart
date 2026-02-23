@@ -1,7 +1,6 @@
 import 'package:book_store/src/features/authentication/data/models/login_state.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 
 final loginProvider =
     StateNotifierProvider<LoginController, AsyncValue<void>>((ref) {

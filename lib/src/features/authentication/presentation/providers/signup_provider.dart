@@ -2,7 +2,6 @@ import 'package:book_store/src/features/authentication/data/models/signup_state.
 import 'package:book_store/src/features/authentication/presentation/providers/auth_providers.dart';
 import 'package:book_store/src/features/authentication/presentation/providers/validators.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 
 final signUpProvider =
     StateNotifierProvider<SignUpController, AsyncValue<void>>((ref) {

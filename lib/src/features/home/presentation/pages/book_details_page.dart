@@ -1,3 +1,4 @@
+import 'package:book_store/l10n/app_localizations.dart';
 import 'package:book_store/src/core/components/custom_app_bar.dart';
 import 'package:book_store/src/core/constants/route_constants.dart';
 import 'package:book_store/src/features/home/presentation/pages/book_listing_page.dart';
@@ -11,6 +12,7 @@ class BookDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -18,7 +20,7 @@ class BookDetailsPage extends StatelessWidget {
           child: Column(
             children: [
               CustomAppBar(
-                title: 'BOOK STORE',
+                title: t.appTitle,
                 hasBackButton: true,
                 onBackPressed: () {
                   Navigator.pop(context, BookListingPage.id);
